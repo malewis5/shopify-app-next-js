@@ -1,30 +1,75 @@
 {
-  "name": "@repo/core",
+  "name": "@malewis5/shopify-app-next-js",
   "version": "0.0.0",
-  "private": true,
+  "description": "Build Shopify apps with Next.js",
+  "keywords": [
+    "app-router",
+    "next.js",
+    "nextjs",
+    "react",
+    "shopify",
+    "typescript"
+  ],
+  "homepage": "https://github.com/malewis5/shopify-app-next-js#readme",
+  "bugs": {
+    "url": "https://github.com/malewis5/shopify-app-next-js/issues"
+  },
+  "license": "MIT",
+  "author": "Matt Lewis",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/malewis5/shopify-app-next-js.git",
+    "directory": "packages/core"
+  },
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    }
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   },
   "scripts": {
     "dev": "tsc -p tsconfig.build.json --watch --preserveWatchOutput",
     "build": "tsc -p tsconfig.build.json",
+    "prepack": "pnpm build",
     "attw": "attw --pack . --profile esm-only",
     "test": "vitest run",
     "test:watch": "vitest",
-    "check-types": "tsc -p tsconfig.json --noEmit",
+    "check-types": "tsc -p tsconfig.json",
     "lint": "oxlint src",
     "format": "oxfmt --write src",
     "format:check": "oxfmt --check src"
   },
   "devDependencies": {
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "next": "16.3.1",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
     "typescript": "^5.9.3",
     "vitest": "^4.1.10"
+  },
+  "peerDependencies": {
+    "next": ">=16.0.0 <17",
+    "react": ">=19.0.0 <20",
+    "react-dom": ">=19.0.0 <20"
+  },
+  "engines": {
+    "node": ">=20.9.0"
   }
 }
