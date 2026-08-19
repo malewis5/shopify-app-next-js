@@ -6,12 +6,14 @@
     "dev": "turbo run dev",
     "build": "turbo run build",
     "test": "turbo run test",
+    "attw": "turbo run attw",
     "check-types": "turbo run check-types",
     "lint": "turbo run lint",
     "format": "turbo run format",
     "format:check": "turbo run format:check"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
     "oxfmt": "^0.63.0",
     "oxlint": "^1.78.0",
     "turbo": "^2.10.10"

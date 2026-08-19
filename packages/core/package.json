@@ -15,6 +15,7 @@
   "scripts": {
     "dev": "tsc -p tsconfig.build.json --watch --preserveWatchOutput",
     "build": "tsc -p tsconfig.build.json",
+    "attw": "attw --pack . --profile esm-only",
     "test": "vitest run",
     "test:watch": "vitest",
     "check-types": "tsc -p tsconfig.json --noEmit",
