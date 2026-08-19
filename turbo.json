@@ -9,6 +9,9 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**", "!.next/dev/**"]
     },
+    "attw": {
+      "dependsOn": ["build"]
+    },
     "test": {
       "dependsOn": ["transit"]
     },
