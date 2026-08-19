@@ -10,10 +10,14 @@
     "check-types": "turbo run check-types",
     "lint": "turbo run lint",
     "format": "turbo run format",
-    "format:check": "turbo run format:check"
+    "format:check": "turbo run format:check",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "changeset publish"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",
+    "@changesets/cli": "^3.0.0",
     "oxfmt": "^0.63.0",
     "oxlint": "^1.78.0",
     "turbo": "^2.10.10"
