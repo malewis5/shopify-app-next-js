@@ -1,4 +1,4 @@
-# @malewis5/shopify-app-next-js
+# shopify-app-nextjs
 
 Build Shopify apps with the Next.js App Router.
 
@@ -13,13 +13,13 @@ This package is under active development and is not ready for production use.
 ## Installation
 
 ```bash
-pnpm add @malewis5/shopify-app-next-js
+pnpm add shopify-app-nextjs
 ```
 
 ## Current API
 
 ```ts
-import { add } from "@malewis5/shopify-app-next-js";
+import { add } from "shopify-app-nextjs";
 
 add(2, 3);
 ```
