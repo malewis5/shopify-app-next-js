@@ -26,9 +26,6 @@ importers:
 
   apps/web:
     dependencies:
-      '@malewis5/shopify-app-next-js':
-        specifier: workspace:*
-        version: link:../../packages/core
       next:
         specifier: 16.3.1
         version: 16.3.1(@types/node@20.19.43)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -38,6 +35,9 @@ importers:
       react-dom:
         specifier: 19.2.8
         version: 19.2.8(react@19.2.8)
+      shopify-app-nextjs:
+        specifier: workspace:*
+        version: link:../../packages/core
     devDependencies:
       '@tailwindcss/postcss':
         specifier: ^4

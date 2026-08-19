@@ -1,6 +1,6 @@
 # Shopify App for Next.js
 
-`@malewis5/shopify-app-next-js` is a TypeScript package for building embedded Shopify apps with the Next.js App Router.
+`shopify-app-nextjs` is a TypeScript package for building embedded Shopify apps with the Next.js App Router.
 
 The goal is to provide the Shopify-specific server primitives that a Next.js application needs while preserving the conventions developers expect from Next.js: route handlers, React Server Components, server actions, middleware, and deployment to modern JavaScript runtimes.
 
@@ -29,7 +29,7 @@ This project is under active development and is not ready for production use. Th
 The intended developer experience will look similar to this:
 
 ```ts
-import { shopifyApp } from "@malewis5/shopify-app-next-js/server";
+import { shopifyApp } from "shopify-app-nextjs/server";
 
 export const shopify = shopifyApp({
   apiKey: process.env.SHOPIFY_API_KEY!,
@@ -75,7 +75,7 @@ These examples describe the planned API and are not implemented yet.
 
 ```text
 apps/web       Next.js application used to develop and test the integration
-packages/core  Publishable @malewis5/shopify-app-next-js package
+packages/core  Publishable shopify-app-nextjs package
 ```
 
 ## Development
@@ -105,7 +105,7 @@ pnpm build
 
 ## Package
 
-The package is prepared for publication as `@malewis5/shopify-app-next-js`, but it has not been published to npm yet.
+The package is published to npm as [`shopify-app-nextjs`](https://www.npmjs.com/package/shopify-app-nextjs).
 
 ## License
 

@@ -12,7 +12,7 @@
     "format:check": "oxfmt --check src"
   },
   "dependencies": {
-    "@malewis5/shopify-app-next-js": "workspace:*",
+    "shopify-app-nextjs": "workspace:*",
     "next": "16.3.1",
     "react": "19.2.8",
     "react-dom": "19.2.8"
