@@ -25,8 +25,7 @@ coverage/
 next-env.d.ts
 
 # Environment files
-.env
-.env.*
+.env*
 !.env.example
 
 # Deployment

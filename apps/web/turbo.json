@@ -1,0 +1,16 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "env": [
+        "DATABASE_URL",
+        "POSTGRES_URL",
+        "PRISMA_DATABASE_URL",
+        "SCOPES",
+        "SHOPIFY_API_KEY",
+        "SHOPIFY_API_SECRET"
+      ]
+    }
+  }
+}
