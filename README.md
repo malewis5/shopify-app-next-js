@@ -1,5 +1,8 @@
 # Shopify App for Next.js
 
+[![npm version](https://img.shields.io/npm/v/shopify-app-nextjs)](https://www.npmjs.com/package/shopify-app-nextjs)
+[![npm downloads](https://img.shields.io/npm/dm/shopify-app-nextjs?label=downloads)](https://www.npmjs.com/package/shopify-app-nextjs)
+
 `shopify-app-nextjs` is a TypeScript package for building embedded Shopify apps with the Next.js App Router.
 
 The goal is to provide the Shopify-specific server primitives that a Next.js application needs while preserving the conventions developers expect from Next.js: route handlers, React Server Components, server actions, middleware, and deployment to modern JavaScript runtimes.
