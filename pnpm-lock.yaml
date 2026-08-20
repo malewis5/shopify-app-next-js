@@ -37,7 +37,7 @@ importers:
         version: 19.2.8(react@19.2.8)
       shopify-app-nextjs:
         specifier: workspace:*
-        version: link:../../packages/core
+        version: link:../../packages/next
     devDependencies:
       '@shopify/polaris-types':
         specifier: ^1.0.7
@@ -61,7 +61,11 @@ importers:
         specifier: ^5
         version: 5.9.3
 
-  packages/core:
+  packages/next:
+    dependencies:
+      shopify-app-react:
+        specifier: workspace:*
+        version: link:../react
     devDependencies:
       '@testing-library/jest-dom':
         specifier: ^7.0.1
@@ -84,6 +88,33 @@ importers:
       next:
         specifier: 16.3.1
         version: 16.3.1(@types/node@20.19.43)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      react:
+        specifier: 19.2.8
+        version: 19.2.8
+      react-dom:
+        specifier: 19.2.8
+        version: 19.2.8(react@19.2.8)
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      vitest:
+        specifier: ^4.1.10
+        version: 4.1.10(@types/node@20.19.43)(jsdom@30.0.1)(vite@8.2.1(@types/node@20.19.43)(jiti@2.7.0)(yaml@2.9.0))
+
+  packages/react:
+    devDependencies:
+      '@testing-library/react':
+        specifier: ^16.3.2
+        version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.4(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      '@types/react':
+        specifier: ^19.2.17
+        version: 19.2.18
+      '@types/react-dom':
+        specifier: ^19.2.3
+        version: 19.2.4(@types/react@19.2.18)
+      jsdom:
+        specifier: ^30.0.1
+        version: 30.0.1
       react:
         specifier: 19.2.8
         version: 19.2.8

@@ -98,4 +98,4 @@ jobs:
 
       - name: Smoke test package on minimum Node.js version
         if: matrix.node-version == '20.9.0'
-        run: grep -q 'export { AppProvider }' packages/core/dist/index.js
+        run: grep -q 'export { AppProvider }' packages/next/dist/index.js

@@ -19,7 +19,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/malewis5/shopify-app-next-js.git",
-    "directory": "packages/core"
+    "directory": "packages/next"
   },
   "files": [
     "dist",
@@ -67,6 +67,9 @@
     "react-dom": "19.2.8",
     "typescript": "^5.9.3",
     "vitest": "^4.1.10"
+  },
+  "dependencies": {
+    "shopify-app-react": "workspace:*"
   },
   "peerDependencies": {
     "next": ">=16.0.0 <17",

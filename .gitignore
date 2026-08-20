@@ -54,3 +54,7 @@ Thumbs.db
 *.swp
 *.swo
 *~
+
+# Shopify
+shopify.app.toml
+shopify.web.toml

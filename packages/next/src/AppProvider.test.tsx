@@ -86,34 +86,60 @@ describe("AppProvider", () => {
     );
   });
 
-  it("uses Next.js navigation for same-origin Shopify navigation events", () => {
+  it("cancels same-origin Shopify navigation events handled by Next.js", () => {
     render(
-      <AppProvider apiKey="test-api-key">
+      <AppProvider apiKey="[redacted]">
         <main>Application</main>
       </AppProvider>,
     );
     const link = document.createElement("a");
     link.href = "/products?status=active#results";
     document.body.append(link);
+    const event = new Event("shopify:navigate", { bubbles: true, cancelable: true });
 
-    fireEvent(link, new Event("shopify:navigate", { bubbles: true }));
+    fireEvent(link, event);
 
     expect(push).toHaveBeenCalledWith("/products?status=active#results");
+    expect(event.defaultPrevented).toBe(true);
   });
 
-  it("ignores cross-origin Shopify navigation events", () => {
+  it("does not consume empty href events through a getAttribute side effect", () => {
     render(
-      <AppProvider apiKey="test-api-key">
+      <AppProvider apiKey="[redacted]">
+        <main>Application</main>
+      </AppProvider>,
+    );
+    const link = document.createElement("a");
+    link.setAttribute("href", "");
+    document.body.append(link);
+    const event = new Event("shopify:navigate", { bubbles: true, cancelable: true });
+    const getAttribute = link.getAttribute.bind(link);
+    vi.spyOn(link, "getAttribute").mockImplementation((name) => {
+      if (name === "href") event.preventDefault();
+      return getAttribute(name);
+    });
+
+    fireEvent(link, event);
+
+    expect(push).not.toHaveBeenCalled();
+    expect(event.defaultPrevented).toBe(false);
+  });
+
+  it("leaves cross-origin Shopify navigation events uncancelled", () => {
+    render(
+      <AppProvider apiKey="[redacted]">
         <main>Application</main>
       </AppProvider>,
     );
     const link = document.createElement("a");
     link.href = "https://example.com/products";
     document.body.append(link);
+    const event = new Event("shopify:navigate", { bubbles: true, cancelable: true });
 
-    fireEvent(link, new Event("shopify:navigate", { bubbles: true }));
+    fireEvent(link, event);
 
     expect(push).not.toHaveBeenCalled();
+    expect(event.defaultPrevented).toBe(false);
   });
 
   it("stops handling Shopify navigation events when unmounted", () => {
