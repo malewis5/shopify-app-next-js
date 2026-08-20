@@ -56,8 +56,12 @@
     "format:check": "oxfmt --check src"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/node": "^20.19.43",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
+    "jsdom": "^30.0.1",
     "next": "16.3.1",
     "react": "19.2.8",
     "react-dom": "19.2.8",
