@@ -24,7 +24,7 @@ cd apps/web
 shopify app config link
 ```
 
-The linked configuration supplies the application client ID used as `SHOPIFY_API_KEY` by `src/app/app/layout.tsx`.
+The linked configuration supplies the application client ID used as `SHOPIFY_API_KEY` by `src/app/(embedded)/layout.tsx`.
 
 ## Development
 
@@ -44,8 +44,8 @@ The standalone Next.js command still requires `SHOPIFY_API_KEY` in the environme
 
 ## Relevant files
 
-- `src/app/layout.tsx` provides the basic document shell and preconnects to Shopify's CDN.
-- `src/app/app/layout.tsx` scopes `ShopifyHead` and `AppProvider` to the embedded `/app` route.
-- `src/app/app/page.tsx` demonstrates Polaris web components.
-- `src/app/page.tsx` is the non-embedded landing route and does not load App Bridge.
+- `src/app/(embedded)/layout.tsx` is the root layout for the embedded `/app` route. It owns its own `<html>`/`<head>`, preconnects to Shopify's CDN, and renders `ShopifyHead` in the `<head>` (so App Bridge and Polaris load synchronously in the document head) plus `AppProvider` in the `<body>`.
+- `src/app/(embedded)/app/page.tsx` demonstrates Polaris web components.
+- `src/app/(marketing)/layout.tsx` is the root layout for the non-embedded landing route and does not load App Bridge.
+- `src/app/(marketing)/page.tsx` is the non-embedded landing route.
 - `next.config.ts` allows Shopify CLI's Cloudflare development origin.
