@@ -4,15 +4,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { AppProvider } from "./AppProvider.js";
 
-const { push } = vi.hoisted(() => ({ push: vi.fn() }));
-
-vi.mock("next/navigation", () => ({
-  useRouter: () => ({ push }),
-}));
+const navigate = vi.fn();
 
 describe("AppProvider", () => {
   beforeEach(() => {
-    push.mockReset();
+    navigate.mockReset();
   });
 
   afterEach(() => {
@@ -22,7 +18,7 @@ describe("AppProvider", () => {
 
   it("renders its children without injecting document scripts", () => {
     render(
-      <AppProvider>
+      <AppProvider navigate={navigate}>
         <main>Application</main>
       </AppProvider>,
     );
@@ -32,9 +28,9 @@ describe("AppProvider", () => {
     expect(document.querySelector('script[src*="shopifycloud/polaris.js"]')).toBeNull();
   });
 
-  it("cancels same-origin Shopify navigation events handled by Next.js", () => {
+  it("passes same-origin Shopify navigation events to the client router", () => {
     render(
-      <AppProvider>
+      <AppProvider navigate={navigate}>
         <main>Application</main>
       </AppProvider>,
     );
@@ -45,35 +41,13 @@ describe("AppProvider", () => {
 
     fireEvent(link, event);
 
-    expect(push).toHaveBeenCalledWith("/products?status=active#results");
+    expect(navigate).toHaveBeenCalledWith("/products?status=active#results");
     expect(event.defaultPrevented).toBe(true);
-  });
-
-  it("does not consume empty href events through a getAttribute side effect", () => {
-    render(
-      <AppProvider>
-        <main>Application</main>
-      </AppProvider>,
-    );
-    const link = document.createElement("a");
-    link.setAttribute("href", "");
-    document.body.append(link);
-    const event = new Event("shopify:navigate", { bubbles: true, cancelable: true });
-    const getAttribute = link.getAttribute.bind(link);
-    vi.spyOn(link, "getAttribute").mockImplementation((name) => {
-      if (name === "href") event.preventDefault();
-      return getAttribute(name);
-    });
-
-    fireEvent(link, event);
-
-    expect(push).not.toHaveBeenCalled();
-    expect(event.defaultPrevented).toBe(false);
   });
 
   it("leaves cross-origin Shopify navigation events uncancelled", () => {
     render(
-      <AppProvider>
+      <AppProvider navigate={navigate}>
         <main>Application</main>
       </AppProvider>,
     );
@@ -84,13 +58,13 @@ describe("AppProvider", () => {
 
     fireEvent(link, event);
 
-    expect(push).not.toHaveBeenCalled();
+    expect(navigate).not.toHaveBeenCalled();
     expect(event.defaultPrevented).toBe(false);
   });
 
   it("stops handling Shopify navigation events when unmounted", () => {
     const { unmount } = render(
-      <AppProvider>
+      <AppProvider navigate={navigate}>
         <main>Application</main>
       </AppProvider>,
     );
@@ -101,6 +75,6 @@ describe("AppProvider", () => {
     unmount();
     fireEvent(link, new Event("shopify:navigate", { bubbles: true }));
 
-    expect(push).not.toHaveBeenCalled();
+    expect(navigate).not.toHaveBeenCalled();
   });
 });
