@@ -16,18 +16,35 @@ This package is under active development and is not ready for production use.
 pnpm add shopify-app-nextjs
 ```
 
-## AppProvider
+## App Bridge and Polaris
 
-Add `AppProvider` to the layout for your embedded app routes. It loads App Bridge and Polaris web components, and handles App Bridge navigation with the Next.js App Router.
+Render `ShopifyHead` at the beginning of the `<head>` in your root layout. It adds the Shopify API key metadata and loads App Bridge and Polaris in the required order.
+
+Shopify requires App Bridge to load synchronously before other blocking scripts. Keeping `ShopifyHead` in the root layout's `<head>` gives the application control over this document-level placement.
 
 ```tsx
-import { AppProvider } from "shopify-app-nextjs";
+import { AppProvider, ShopifyHead } from "shopify-app-nextjs";
 
-export default function AppLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <AppProvider apiKey={process.env.SHOPIFY_API_KEY!}>
-      {children}
-    </AppProvider>
+    <html lang="en">
+      <head>
+        <ShopifyHead />
+      </head>
+      <body>
+        <AppProvider>{children}</AppProvider>
+      </body>
+    </html>
   );
 }
 ```
+
+`ShopifyHead` uses `process.env.SHOPIFY_API_KEY` by default. You can override it with `<ShopifyHead apiKey="..." />`.
+
+Do not render `ShopifyHead` in `<body>` or inside `AppProvider`. It intentionally emits blocking classic scripts without `async`, `defer`, or `type="module"` because App Bridge rejects those loading modes.
+
+Next.js can inject framework scripts into the generated document. Check the browser console and production HTML after framework upgrades to confirm App Bridge does not report an ordering warning.
+
+## AppProvider
+
+`AppProvider` handles App Bridge navigation events with the Next.js App Router. Render `ShopifyHead` separately in the document head as shown above.

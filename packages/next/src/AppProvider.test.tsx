@@ -13,82 +13,28 @@ vi.mock("next/navigation", () => ({
 describe("AppProvider", () => {
   beforeEach(() => {
     push.mockReset();
-    vi.stubEnv("SHOPIFY_API_KEY", "environment-api-key");
   });
 
   afterEach(() => {
     cleanup();
     document.body.replaceChildren();
-    vi.unstubAllEnvs();
   });
 
-  it("uses SHOPIFY_API_KEY by default", () => {
+  it("renders its children without injecting document scripts", () => {
     render(
       <AppProvider>
         <main>Application</main>
       </AppProvider>,
     );
 
-    expect(
-      document.querySelector('script[src="https://cdn.shopify.com/shopifycloud/app-bridge.js"]'),
-    ).toHaveAttribute("data-api-key", "environment-api-key");
-  });
-
-  it("allows SHOPIFY_API_KEY to be overridden", () => {
-    render(
-      <AppProvider apiKey="prop-api-key">
-        <main>Application</main>
-      </AppProvider>,
-    );
-
-    expect(
-      document.querySelector('script[src="https://cdn.shopify.com/shopifycloud/app-bridge.js"]'),
-    ).toHaveAttribute("data-api-key", "prop-api-key");
-  });
-
-  it("throws when no API key is available", () => {
-    vi.stubEnv("SHOPIFY_API_KEY", "");
-
-    expect(() =>
-      render(
-        <AppProvider>
-          <main>Application</main>
-        </AppProvider>,
-      ),
-    ).toThrow("AppProvider requires an API key. Set SHOPIFY_API_KEY or pass the apiKey prop.");
-  });
-
-  it("renders App Bridge, Polaris, and its children", () => {
-    render(
-      <AppProvider apiKey="test-api-key">
-        <main>Application</main>
-      </AppProvider>,
-    );
-
     expect(screen.getByRole("main")).toHaveTextContent("Application");
-    const appBridgeScript = document.querySelector(
-      'script[src="https://cdn.shopify.com/shopifycloud/app-bridge.js"]',
-    );
-    const polarisScript = document.querySelector(
-      'script[src="https://cdn.shopify.com/shopifycloud/polaris.js"]',
-    );
-
-    expect(appBridgeScript).toHaveAttribute("data-api-key", "test-api-key");
-    expect(appBridgeScript).not.toHaveAttribute("async");
-    expect(appBridgeScript).not.toHaveAttribute("defer");
-    expect(polarisScript).not.toHaveAttribute("async");
-    expect(polarisScript).not.toHaveAttribute("defer");
-    expect(appBridgeScript?.compareDocumentPosition(polarisScript!)).toBe(
-      Node.DOCUMENT_POSITION_FOLLOWING,
-    );
-    expect(polarisScript?.compareDocumentPosition(screen.getByRole("main"))).toBe(
-      Node.DOCUMENT_POSITION_FOLLOWING,
-    );
+    expect(document.querySelector('script[src*="shopifycloud/app-bridge.js"]')).toBeNull();
+    expect(document.querySelector('script[src*="shopifycloud/polaris.js"]')).toBeNull();
   });
 
   it("cancels same-origin Shopify navigation events handled by Next.js", () => {
     render(
-      <AppProvider apiKey="[redacted]">
+      <AppProvider>
         <main>Application</main>
       </AppProvider>,
     );
@@ -105,7 +51,7 @@ describe("AppProvider", () => {
 
   it("does not consume empty href events through a getAttribute side effect", () => {
     render(
-      <AppProvider apiKey="[redacted]">
+      <AppProvider>
         <main>Application</main>
       </AppProvider>,
     );
@@ -127,7 +73,7 @@ describe("AppProvider", () => {
 
   it("leaves cross-origin Shopify navigation events uncancelled", () => {
     render(
-      <AppProvider apiKey="[redacted]">
+      <AppProvider>
         <main>Application</main>
       </AppProvider>,
     );
@@ -144,7 +90,7 @@ describe("AppProvider", () => {
 
   it("stops handling Shopify navigation events when unmounted", () => {
     const { unmount } = render(
-      <AppProvider apiKey="test-api-key">
+      <AppProvider>
         <main>Application</main>
       </AppProvider>,
     );

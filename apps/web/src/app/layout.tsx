@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { AppProvider } from "shopify-app-nextjs";
+import { AppProvider, ShopifyHead } from "shopify-app-nextjs";
 
 import "./globals.css";
 
@@ -11,6 +11,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en">
+      <head>
+        <ShopifyHead />
+      </head>
       <body>
         <AppProvider>{children}</AppProvider>
       </body>
