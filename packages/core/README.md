@@ -16,10 +16,18 @@ This package is under active development and is not ready for production use.
 pnpm add shopify-app-nextjs
 ```
 
-## Current API
+## AppProvider
 
-```ts
-import { add } from "shopify-app-nextjs";
+Add `AppProvider` to the layout for your embedded app routes. It loads App Bridge and Polaris web components, and handles App Bridge navigation with the Next.js App Router.
 
-add(2, 3);
+```tsx
+import { AppProvider } from "shopify-app-nextjs";
+
+export default function AppLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <AppProvider apiKey={process.env.SHOPIFY_API_KEY!}>
+      {children}
+    </AppProvider>
+  );
+}
 ```

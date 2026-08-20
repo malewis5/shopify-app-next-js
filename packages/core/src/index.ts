@@ -1,1 +1,1 @@
-export { add } from "./add.js";
+export { AppProvider, type AppProviderProps } from "./AppProvider.js";
