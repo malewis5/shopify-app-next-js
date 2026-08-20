@@ -1,6 +1,6 @@
 # Example Shopify app
 
-This Next.js application demonstrates the local `shopify-app-nextjs` package with App Bridge, Polaris web components, and App Router navigation.
+This Next.js application demonstrates the local `shopify-app-react` package with App Bridge, Polaris web components, and App Router navigation.
 
 ## Prerequisites
 
@@ -44,7 +44,8 @@ The standalone Next.js command still requires `SHOPIFY_API_KEY` in the environme
 
 ## Relevant files
 
-- `src/app/(embedded)/layout.tsx` is the root layout for the embedded `/app` route. It owns its own `<html>`/`<head>`, preconnects to Shopify's CDN, and renders `ShopifyHead` in the `<head>` (so App Bridge and Polaris load synchronously in the document head) plus `AppProvider` in the `<body>`.
+- `src/app/(embedded)/layout.tsx` is the root layout for the embedded `/app` route. It owns its own `<html>`/`<head>`, preconnects to Shopify's CDN, and renders `ShopifyHead` in the document head.
+- `src/app/(embedded)/providers.tsx` is a Client Component that passes the Next.js router's `push` function to `AppProvider`.
 - `src/app/(embedded)/app/page.tsx` demonstrates Polaris web components.
 - `src/app/(marketing)/layout.tsx` is the root layout for the non-embedded landing route and does not load App Bridge.
 - `src/app/(marketing)/page.tsx` is the non-embedded landing route.

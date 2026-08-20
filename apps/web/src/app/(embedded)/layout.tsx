@@ -1,8 +1,9 @@
 import type { ReactNode } from "react";
 
-import { AppProvider, ShopifyHead } from "shopify-app-nextjs";
+import { ShopifyHead } from "shopify-app-react";
 
 import "../globals.css";
+import { Providers } from "./providers";
 
 export default function EmbeddedLayout({ children }: { children: ReactNode }) {
   const apiKey = process.env.SHOPIFY_API_KEY;
@@ -18,7 +19,7 @@ export default function EmbeddedLayout({ children }: { children: ReactNode }) {
         <ShopifyHead apiKey={apiKey} />
       </head>
       <body>
-        <AppProvider>{children}</AppProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
