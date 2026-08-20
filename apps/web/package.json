@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "shopify app dev",
     "build": "next build",
     "start": "next start",
     "check-types": "next typegen && tsc --noEmit",
@@ -12,12 +12,13 @@
     "format:check": "oxfmt --check src"
   },
   "dependencies": {
-    "shopify-app-nextjs": "workspace:*",
     "next": "16.3.1",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "shopify-app-nextjs": "workspace:*"
   },
   "devDependencies": {
+    "@shopify/polaris-types": "^1.0.7",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

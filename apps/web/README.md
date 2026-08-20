@@ -1,34 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Example Shopify app
 
-## Getting Started
+This Next.js application demonstrates the local `shopify-app-nextjs` package with App Bridge, Polaris web components, and App Router navigation.
 
-First, run the development server:
+## Prerequisites
+
+- Node.js 22 or newer
+- pnpm
+- Shopify CLI
+- Access to a Shopify app and development store
+
+Install the workspace dependencies from the repository root:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Shopify configuration
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Shopify CLI configuration files are intentionally ignored because they contain app-specific values. From this directory, link or create a configuration before starting development:
 
-## Learn More
+```bash
+cd apps/web
+shopify app config link
+```
 
-To learn more about Next.js, take a look at the following resources:
+The linked configuration supplies the application client ID used as `SHOPIFY_API_KEY` by `src/app/(embedded)/layout.tsx`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Development
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Run the example through Shopify CLI so it can manage the development URL and embedded app preview:
 
-## Deploy on Vercel
+```bash
+pnpm dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+To run Next.js without the Shopify CLI tunnel, use:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+pnpm exec next dev
+```
+
+The standalone Next.js command still requires `SHOPIFY_API_KEY` in the environment to configure App Bridge.
+
+## Relevant files
+
+- `src/app/(embedded)/layout.tsx` is the root layout for the embedded `/app` route. It owns its own `<html>`/`<head>`, preconnects to Shopify's CDN, and renders `ShopifyHead` in the `<head>` (so App Bridge and Polaris load synchronously in the document head) plus `AppProvider` in the `<body>`.
+- `src/app/(embedded)/app/page.tsx` demonstrates Polaris web components.
+- `src/app/(marketing)/layout.tsx` is the root layout for the non-embedded landing route and does not load App Bridge.
+- `src/app/(marketing)/page.tsx` is the non-embedded landing route.
+- `next.config.ts` allows Shopify CLI's Cloudflare development origin.
