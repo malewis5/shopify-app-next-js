@@ -20,7 +20,7 @@
       "dependsOn": ["^transit"]
     },
     "check-types": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build", "^check-types"]
     },
     "lint": {
       "dependsOn": ["^lint"]

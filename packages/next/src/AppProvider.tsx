@@ -1,6 +1,8 @@
-import type { ReactNode } from "react";
+"use client";
 
-import { AppProviderClient } from "./AppProviderClient.js";
+import type { ReactNode } from "react";
+import { useRouter } from "next/navigation";
+import { useShopifyNavigation } from "shopify-app-react";
 
 /** Props for the {@link AppProvider} component. */
 export interface AppProviderProps {
@@ -8,16 +10,11 @@ export interface AppProviderProps {
   children: ReactNode;
 }
 
-/**
- * Integrates App Bridge navigation with the Next.js App Router.
- *
- * Render {@link ShopifyHead} separately in the document head.
- */
+/** Integrates App Bridge navigation with the Next.js App Router. */
 export function AppProvider({ children }: AppProviderProps) {
-  return (
-    <>
-      <AppProviderClient />
-      {children}
-    </>
-  );
+  const router = useRouter();
+
+  useShopifyNavigation(router.push);
+
+  return children;
 }

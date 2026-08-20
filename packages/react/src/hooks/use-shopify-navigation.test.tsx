@@ -50,6 +50,19 @@ describe("useShopifyNavigation", () => {
     expect(event.defaultPrevented).toBe(false);
   });
 
+  it("leaves malformed destinations untouched", () => {
+    const navigate = vi.fn();
+    renderHook(() => useShopifyNavigation(navigate));
+    const link = document.createElement("a");
+    link.setAttribute("href", "http://[");
+    document.body.append(link);
+    const event = new Event("shopify:navigate", { bubbles: true, cancelable: true });
+
+    expect(() => fireEvent(link, event)).not.toThrow();
+    expect(navigate).not.toHaveBeenCalled();
+    expect(event.defaultPrevented).toBe(false);
+  });
+
   it("stops handling events when unmounted", () => {
     const navigate = vi.fn();
     const { unmount } = renderHook(() => useShopifyNavigation(navigate));

@@ -1,27 +1,13 @@
 import "@testing-library/jest-dom/vitest";
 import { cleanup, render } from "@testing-library/react";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 
 import { ShopifyHead } from "./ShopifyHead.js";
 
 describe("ShopifyHead", () => {
-  afterEach(() => {
-    cleanup();
-    vi.unstubAllEnvs();
-  });
+  afterEach(cleanup);
 
-  it("uses SHOPIFY_API_KEY by default", () => {
-    vi.stubEnv("SHOPIFY_API_KEY", "environment-api-key");
-
-    render(<ShopifyHead />);
-
-    expect(document.querySelector('meta[name="shopify-api-key"]')).toHaveAttribute(
-      "content",
-      "environment-api-key",
-    );
-  });
-
-  it("allows SHOPIFY_API_KEY to be overridden", () => {
+  it("renders the provided Shopify API key", () => {
     render(<ShopifyHead apiKey="prop-api-key" />);
 
     expect(document.querySelector('meta[name="shopify-api-key"]')).toHaveAttribute(
@@ -30,16 +16,8 @@ describe("ShopifyHead", () => {
     );
   });
 
-  it("throws when no API key is available", () => {
-    vi.stubEnv("SHOPIFY_API_KEY", "");
-
-    expect(() => render(<ShopifyHead />)).toThrow(
-      "ShopifyHead requires an API key. Set SHOPIFY_API_KEY or pass the apiKey prop.",
-    );
-  });
-
   it("renders synchronous App Bridge and Polaris scripts in order", () => {
-    render(<ShopifyHead apiKey="test-api-key" />);
+    render(<ShopifyHead apiKey="prop-api-key" />);
 
     const appBridgeScript = document.querySelector(
       'script[src="https://cdn.shopify.com/shopifycloud/app-bridge.js"]',

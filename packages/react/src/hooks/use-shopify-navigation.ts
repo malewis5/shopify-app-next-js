@@ -18,6 +18,8 @@ export function useShopifyNavigation(navigate: ShopifyNavigate) {
       const href = getHref(event.target);
       if (!href) return;
 
+      if (!URL.canParse(href, window.location.href)) return;
+
       const url = new URL(href, window.location.href);
       if (url.origin !== window.location.origin) return;
 

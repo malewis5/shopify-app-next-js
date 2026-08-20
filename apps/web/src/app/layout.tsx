@@ -12,7 +12,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en">
       <head>
-        <ShopifyHead />
+        <ShopifyHead apiKey={process.env.SHOPIFY_API_KEY!} />
       </head>
       <body>
         <AppProvider>{children}</AppProvider>
