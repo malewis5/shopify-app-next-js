@@ -1,37 +1,48 @@
-# shopify-app-nextjs
+# shopify-app-react
 
-[![npm version](https://img.shields.io/npm/v/shopify-app-nextjs)](https://www.npmjs.com/package/shopify-app-nextjs)
-[![npm downloads](https://img.shields.io/npm/dm/shopify-app-nextjs?label=downloads)](https://www.npmjs.com/package/shopify-app-nextjs)
+[![npm version](https://img.shields.io/npm/v/shopify-app-react)](https://www.npmjs.com/package/shopify-app-react)
+[![npm downloads](https://img.shields.io/npm/dm/shopify-app-react?label=downloads)](https://www.npmjs.com/package/shopify-app-react)
 
-Utilities for building embedded Shopify apps with React and the Next.js App Router.
+Framework-agnostic React utilities for building embedded Shopify apps.
 
 This project is under active development and is not ready for production use.
 
-## Packages
+## Package
 
-- [`shopify-app-nextjs`](./packages/next/README.md) integrates Shopify navigation with the Next.js App Router and re-exports the shared head component.
-- [`shopify-app-react`](./packages/react/README.md) provides framework-agnostic React utilities for loading App Bridge and Polaris and handling Shopify navigation events.
+[`shopify-app-react`](./packages/react/README.md) provides utilities for loading App Bridge and Polaris and handling Shopify navigation events with any client-side router.
 
 ## Requirements
 
 - Node.js 22 or newer
-- Next.js 16
 - React 19
 
 ## Installation
 
 ```bash
-pnpm add shopify-app-nextjs
+pnpm add shopify-app-react
 ```
-
-Installing `shopify-app-nextjs` also installs `shopify-app-react` as a dependency. Install `shopify-app-react` directly only when using its framework-agnostic APIs without the Next.js integration.
 
 ## Next.js setup
 
-Add `ShopifyHead` to the root layout's `<head>` and wrap the application body with `AppProvider`:
+Render `ShopifyHead` in the root layout's `<head>`. Create a Client Component that passes the Next.js router's `push` function to `AppProvider`.
 
-```tsx
-import { AppProvider, ShopifyHead } from "shopify-app-nextjs";
+```tsx filename="app/providers.tsx"
+"use client";
+
+import { useRouter } from "next/navigation";
+import { AppProvider } from "shopify-app-react";
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+
+  return <AppProvider navigate={router.push}>{children}</AppProvider>;
+}
+```
+
+```tsx filename="app/layout.tsx"
+import { ShopifyHead } from "shopify-app-react";
+
+import { Providers } from "./providers";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const apiKey = process.env.SHOPIFY_API_KEY;
@@ -43,19 +54,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        <ShopifyHead apiKey={apiKey} />
+        <ShopifyHead apiKey=[redacted] />
       </head>
       <body>
-        <AppProvider>{children}</AppProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
 }
 ```
 
-`ShopifyHead` emits the Shopify API key metadata followed by synchronous App Bridge and Polaris scripts. `AppProvider` is a Client Component that sends same-origin `shopify:navigate` events through the Next.js App Router.
+`ShopifyHead` emits the Shopify API key metadata followed by synchronous App Bridge and Polaris scripts. `AppProvider` sends same-origin `shopify:navigate` events through the client-side navigation function you provide.
 
-See the package READMEs for API details and framework-agnostic usage.
+See the [package README](./packages/react/README.md) for API details and framework-agnostic usage.
 
 ## Contributing
 

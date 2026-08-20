@@ -37,9 +37,29 @@ Keep it in the document `<head>`, before other scripts that need App Bridge. Do 
 
 The package does not read environment variables. Your application must load and validate the API key before passing it to `ShopifyHead`.
 
+## AppProvider
+
+`AppProvider` renders your application and connects Shopify navigation events to the client router you provide. Pass the router's navigation function rather than the router object so the component remains framework-agnostic.
+
+```tsx
+"use client";
+
+import { AppProvider } from "shopify-app-react";
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  const navigate = useYourRouter();
+
+  return <AppProvider navigate={navigate}>{children}</AppProvider>;
+}
+```
+
+For a same-origin destination, the provider prevents the event's default navigation and calls `navigate` with its pathname, search parameters, and hash. Empty, malformed, and cross-origin destinations are ignored so their default behavior remains available.
+
+The provider must run on the client in frameworks that distinguish server and client components.
+
 ## useShopifyNavigation
 
-`useShopifyNavigation` connects `shopify:navigate` events to a framework's client-side router. It accepts a function that receives a root-relative URL.
+`useShopifyNavigation` exposes the navigation behavior used by `AppProvider` when a component-level API is more appropriate.
 
 ```tsx
 import { useShopifyNavigation } from "shopify-app-react";
@@ -52,7 +72,3 @@ function ShopifyNavigation() {
   return null;
 }
 ```
-
-For a same-origin destination, the hook prevents the event's default navigation and calls `navigate` with its pathname, search parameters, and hash. Empty, malformed, and cross-origin destinations are ignored so their default behavior remains available.
-
-The component that calls this hook must run on the client in frameworks that distinguish server and client components.
